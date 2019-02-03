@@ -17,7 +17,8 @@
 </head>
 <body>
     <?php if(!empty($message)):?>
-    <p><?php echo $message; ?></p>
+    <p><?php echo $message;?></p>
+	<p><?php echo $tries_left; ?></p>
     <?php endif ?>
 	<form action="admin_login.php" method="post">
 		<label>Username:

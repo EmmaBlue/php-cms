@@ -17,6 +17,40 @@
     <h1>Admin Dashboard</h1>
     <h3>Welcome <?php echo $_SESSION['user_name'];?></h3>
     <p>This is the admin dashboard page</p>
+    <?php  
+        //Create date create object to format date  
+        $date = date_create($_SESSION['date']);
+    ?>
+    <p>The last successful login was 
+        <?php 
+            $date_formatted = ( date_format($date, '\o\n l jS F Y \a\t g:ia'));
+            echo $date_formatted;
+        ?>
+     </p>
+     <p>
+        <?php
+            //Set correct timezone
+            date_default_timezone_set('America/Toronto');
+            $login_time = date('H');
+            //If before noon
+            if ($login_time < "12") {
+
+                echo "Good morning";
+            }
+            //If between noon and 5 
+            else if ($login_time >= "12" && $login_time < "17") {
+
+                echo "Good afternoon";
+            }
+            
+            else {
+                echo "Good night";
+            }
+        ?>
+     </p>
+     <?php
+
+     ?>
     <nav>
         <ul>
             <li><a href="#">Create User</a></li>

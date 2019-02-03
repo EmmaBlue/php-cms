@@ -21,7 +21,6 @@
 
         include('connect.php');
         $querySingle = 'SELECT * FROM '.$tbl.' WHERE '.$col.' = '.$value;
-        //var_dump($querySingle);
         $runSingle = $pdo->query($querySingle);
         if ($runSingle){
             return $runSingle;
