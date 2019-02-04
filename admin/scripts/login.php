@@ -30,14 +30,14 @@ function login($username, $password) {
 
           //Checks if user locked out 
 
-          $locked_out_query = "SELECT * FROM tbl_login_tries WHERE failed_login_tries >= :tries AND last_failed_login > :failed_time";
+          $locked_out_query = "SELECT * FROM tbl_user WHERE failed_login_tries >= 3 AND last_failed_login > DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND user_name = '$username'";
           $get_locked_out = $pdo->prepare($locked_out_query);
           $get_locked_out->execute (
 
             array (
 
-              ":tries" => 3,
-              ":failed_time" => 'DATE_SUB(NOW(), INTERVAL 10 MINUTE)'
+              /*":tries" => 3,
+              ":failed_time" => 'DATE_SUB(NOW(), INTERVAL 10 MINUTE)'*/
 
             )
 
@@ -54,16 +54,7 @@ function login($username, $password) {
 
               //Update login attempts
 
-              $refresh_login_query = "UPDATE tbl_login_tries SET failed_login_tries == :refresh";
-              $get_failed_login = $pdo->prepare($failed_login_query);
-              $get_failed_login->execute(
-      
-                array (
-      
-                  ":refresh" => 0
-                  
-                )
-              );
+    
 
               //Display user
 
@@ -92,41 +83,12 @@ function login($username, $password) {
     //If username matches but password doesn't 
 
     if (empty($id)){
-      //Check if any failed login tries yet
-      $login_query = "SELECT COUNT(*) failed_login_tries FROM tbl_login_tries";
-      $get_login_set = $pdo->prepare($login_query);
-      $get_login_set->execute(
-        array(
-  
-        )
-      );
-
-      //If there are failed login tries
-
-      if ($get_login_set->fetchColumn() > 0) {
 
         $_SESSION['login_fails']++;
         $login_tries = $_SESSION['login_fails'];
+        var_dump($login_tries);
         //Update login tries 
-        $failed_login_query="UPDATE tbl_login_tries SET failed_login_tries = :tries, last_failed_login = NOW()";
-        $get_failed_login = $pdo->prepare($failed_login_query);
-        $get_failed_login->execute(
-
-          array (
-
-            ":tries" => $login_tries
-            
-          )
-        );
-      }
-
-      //If no failed login tries yet 
-
-      else {
-
-        $_SESSION['login_fails']++;
-        //Create new login try and last failed login values
-        $failed_login_query="INSERT INTO tbl_login_tries VALUES ('',':tries', NOW())";
+        $failed_login_query="UPDATE tbl_user SET failed_login_tries = '.$login_tries.', last_failed_login = NOW() WHERE user_name = '$username'";
         $get_failed_login = $pdo->prepare($failed_login_query);
         $get_failed_login->execute(
 
@@ -137,9 +99,7 @@ function login($username, $password) {
           )
         );
 
-      }
-
-      $tries_left = 3 - $_SESSION['login_fails'];
+      $tries_left = 3 - $login_tries;
       $message = 'Login Failed. You have '.$tries_left.' more tries before being locked.';
       if ($tries_left <= 0) {
 
@@ -151,54 +111,9 @@ function login($username, $password) {
     redirect_to('index.php');
   }
 
-  //If other case besides correct username and incorrect password
   else {
-    $login_query = "SELECT COUNT(*) failed_login_tries FROM tbl_login_tries";
-      $get_login_set = $pdo->prepare($login_query);
-      $get_login_set->execute(
-        array(
-  
-        )
-      );
+      $message = 'Login Failed.';
 
-      if ($get_login_set->fetchColumn() > 0) {
-
-        $_SESSION['login_fails']++;
-        $login_tries = $_SESSION['login_fails'];
-        $failed_login_query="UPDATE tbl_login_tries SET failed_login_tries = :tries, last_failed_login = NOW()";
-        $get_failed_login = $pdo->prepare($failed_login_query);
-        $get_failed_login->execute(
-
-          array (
-
-            ":tries" => $login_tries
-            
-          )
-        );
-      }
-      else {
-
-        $_SESSION['login_fails']++;
-        $failed_login_query="INSERT INTO tbl_login_tries VALUES ('',':tries', NOW())";
-        $get_failed_login = $pdo->prepare($failed_login_query);
-        $get_failed_login->execute(
-
-          array (
-
-            ":tries" => $login_tries
-            
-          )
-        );
-
-      }
-
-      $tries_left = 3 - $_SESSION['login_fails'];
-      $message = 'Login Failed. You have '.$tries_left.' more tries before being locked.';
-      if ($tries_left <= 0) {
-
-        $message = 'Locked out!';
-
-      }
       return $message;
   }
 }
