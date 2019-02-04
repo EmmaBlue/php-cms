@@ -36,7 +36,7 @@ function login($username, $password) {
 
             array (
 
-              /*":tries" => 3,
+              /*":tries" => '3',
               ":failed_time" => 'DATE_SUB(NOW(), INTERVAL 10 MINUTE)'*/
 
             )
