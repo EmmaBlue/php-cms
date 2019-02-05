@@ -30,14 +30,13 @@ function login($username, $password) {
 
           //Checks if user locked out 
 
-          $locked_out_query = "SELECT * FROM tbl_user WHERE failed_login_tries >= 3 AND last_failed_login > DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND user_name = '$username'";
+          $locked_out_query = "SELECT * FROM tbl_user WHERE failed_login_tries >= 3 AND last_failed_login > DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND user_name = :user";
           $get_locked_out = $pdo->prepare($locked_out_query);
           $get_locked_out->execute (
 
             array (
 
-              /*":tries" => '3',
-              ":failed_time" => 'DATE_SUB(NOW(), INTERVAL 10 MINUTE)'*/
+              ":user" => $username
 
             )
 
@@ -88,13 +87,14 @@ function login($username, $password) {
         $login_tries = $_SESSION['login_fails'];
         var_dump($login_tries);
         //Update login tries 
-        $failed_login_query="UPDATE tbl_user SET failed_login_tries = '.$login_tries.', last_failed_login = NOW() WHERE user_name = '$username'";
+        $failed_login_query="UPDATE tbl_user SET failed_login_tries = :tries, last_failed_login = NOW() WHERE user_name = :user";
         $get_failed_login = $pdo->prepare($failed_login_query);
         $get_failed_login->execute(
 
           array (
 
-            ":tries" => $login_tries
+            ":tries" => $login_tries,
+            ":user" => $username
             
           )
         );
