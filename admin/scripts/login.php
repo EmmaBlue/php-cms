@@ -1,6 +1,6 @@
 <?php
 
-function login($username, $password) {
+function login($username, $password, $ip) {
     require_once('connect.php');
     //check if username exists
     $check_exist_query = "SELECT COUNT(*) FROM tbl_user WHERE user_name = :username";
@@ -13,17 +13,29 @@ function login($username, $password) {
 
     // If there is at least 1 user in database 
     if ($user_set->fetchColumn() > 0) {
-
-        // Select where DB info matches user input
-
-        $get_user_query = "SELECT * FROM tbl_user WHERE user_pass = :psw AND user_name = :username";
-        $get_user_set = $pdo->prepare($get_user_query);
-        $get_user_set->execute(
+      
+        $get_user_hash = 'SELECT user_pass FROM tbl_user WHERE user_name = :username';
+        $user_hash_set = $pdo->prepare($get_user_hash);
+        $user_hash_set->execute(
           array(
-            ":psw" => $password,
-            ":username" => $username
+            ':username' => $username
           )
         );
+        $user_hash = $user_hash_set->fetchColumn();
+        $hash_pass = password_verify($password, $user_hash);
+        var_dump($password);die;
+        // Select where DB info matches user input
+
+        $get_user_query = 'SELECT * FROM tbl_user WHERE user_name = :username';
+        $get_user_set = $pdo->prepare($get_user_query);
+        //If encrypted DB password matches user input
+        if($hash_pass){
+          $get_user_set->execute(
+            array(
+              ':username'=>$username
+            )
+          );
+        }
 
         //While the user input matches a user in the database 
         while ($found_user = $get_user_set->fetch(PDO::FETCH_ASSOC)) {
@@ -33,11 +45,8 @@ function login($username, $password) {
           $locked_out_query = "SELECT * FROM tbl_user WHERE failed_login_tries >= 3 AND last_failed_login > DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND user_name = :user";
           $get_locked_out = $pdo->prepare($locked_out_query);
           $get_locked_out->execute (
-
             array (
-
               ":user" => $username
-
             )
 
           );
@@ -45,6 +54,7 @@ function login($username, $password) {
             // If user has been locked out 3+ times in row and it's been less than 10 mins since last try
             if ($get_locked_out->fetchColumn() > 0 ) {
 
+              //var_dump($password);
               $message = 'Locked out!';
               return $message; 
             }
@@ -52,8 +62,6 @@ function login($username, $password) {
             else {
 
               //Update login attempts
-
-    
 
               //Display user
 
@@ -71,6 +79,15 @@ function login($username, $password) {
                   ":user" => $id
                 )
               );
+
+              //Update ip to be current user's ip address 
+              $set_ip_query = 'UPDATE tbl_user SET user_ip = :ip WHERE user_id = :id';
+              $set_ip = $pdo->prepare($set_ip_query);
+              $set_ip->execute(
+                array(
+                  ':ip' => $ip, ':id' => $id
+                )
+              );
             //Redirect to admin dashboard 
             redirect_to('index.php');
 
@@ -85,7 +102,6 @@ function login($username, $password) {
 
         $_SESSION['login_fails']++;
         $login_tries = $_SESSION['login_fails'];
-        var_dump($login_tries);
         //Update login tries 
         $failed_login_query="UPDATE tbl_user SET failed_login_tries = :tries, last_failed_login = NOW() WHERE user_name = :user";
         $get_failed_login = $pdo->prepare($failed_login_query);
