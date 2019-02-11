@@ -23,7 +23,7 @@ function login($username, $password, $ip) {
         );
         $user_hash = $user_hash_set->fetchColumn();
         $hash_pass = password_verify($password, $user_hash);
-        var_dump($password);die;
+       // var_dump($password);die;
         // Select where DB info matches user input
 
         $get_user_query = 'SELECT * FROM tbl_user WHERE user_name = :username';

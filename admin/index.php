@@ -18,15 +18,17 @@
     <h3>Welcome <?php echo $_SESSION['user_name'];?></h3>
     <p>This is the admin dashboard page</p>
     <?php  
-        //Create date create object to format date  
-        $date = date_create($_SESSION['date']);
+        // If user has logged in successfully before
+        if ($_SESSION['date'] !== "0000-00-00 00:00:00") {
+
+            //Create date create object to format date  
+            $date = date_create($_SESSION['date']);
+            date_default_timezone_set('America/Toronto');
+            $date_formatted = (date_format($date, '\o\n l jS F Y \a\t g:ia'));
+            echo 'The last successful login was '.$date_formatted;
+        }
+
     ?>
-    <p>The last successful login was 
-        <?php 
-            $date_formatted = ( date_format($date, '\o\n l jS F Y \a\t g:ia'));
-            echo $date_formatted;
-        ?>
-     </p>
      <p>
         <?php
             //Set correct timezone
