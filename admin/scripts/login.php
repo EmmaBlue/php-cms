@@ -14,6 +14,7 @@ function login($username, $password, $ip) {
     // If there is at least 1 user in database 
     if ($user_set->fetchColumn() > 0) {
       
+       //Get encrypted password from database
         $get_user_hash = 'SELECT user_pass FROM tbl_user WHERE user_name = :username';
         $user_hash_set = $pdo->prepare($get_user_hash);
         $user_hash_set->execute(
@@ -85,7 +86,8 @@ function login($username, $password, $ip) {
               $set_ip = $pdo->prepare($set_ip_query);
               $set_ip->execute(
                 array(
-                  ':ip' => $ip, ':id' => $id
+                  ':ip' => $ip, 
+                  ':id' => $id
                 )
               );
             //Redirect to admin dashboard 

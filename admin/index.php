@@ -56,7 +56,7 @@
     <nav>
         <ul>
             <li><a href="admin_createuser.php">Create User</a></li>
-            <li><a href="#">Edit User</a></li>
+            <li><a href="admin_edituser.php">Edit User</a></li>
             <li><a href="#">Delete User</a></li>
             <li><a href="scripts/caller.php?caller_id=logout">Sign Out</a></li>
         </ul>
