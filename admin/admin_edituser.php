@@ -1,4 +1,4 @@
-<?php 
+<?php
     //check that user is logged in before being allowed to access page
     require_once('scripts/connect.php');
     require_once('scripts/config.php');
@@ -28,7 +28,7 @@
             $message = 'Please fill the required fields!';
         } else {
 
-            //Edit user 
+            //Edit user
             $result = editUser($id, $fname, $username, $password, $email);
             $message = $result;
 
@@ -66,7 +66,13 @@
             <input type="email" id="email" name="email" value="<?php echo $found_user['user_email'];?>"><br><br>
             <button type="submit" name="submit">Edit User</button>
         </form>
-    <?php endif;?>   
-    
+    <?php endif;?>
+
+     <nav>
+        <ul>
+            <li><a href="scripts/caller.php?caller_id=logout">Sign Out</a></li>
+        </ul>
+    </nav>
+
 </body>
 </html>

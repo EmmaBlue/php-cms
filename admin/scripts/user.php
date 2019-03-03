@@ -1,13 +1,13 @@
-<?php 
-    function createUser($fname, $username, $password, $email){
-        include('connect.php');  
+<?php
+    function createUser($fname, $username, $email){
+        include('connect.php');
         // Generate password from the system, not from the admin
         $created_pass = create_password();
-        echo $created_pass;
+        //echo $created_pass;
         /* Use this to check for decrypted system password
         var_dump($created_pass);die;
         */
-        
+
         $pass_hash = password_hash($created_pass, PASSWORD_DEFAULT);
         //Insert new user into database
         $create_user_query = 'INSERT INTO tbl_user(user_fname, user_name, user_pass, user_email) VALUES(:fname, :username, :password, :email)';
@@ -24,7 +24,7 @@
 
         // If new user has been inserted into database, alert user and send them an email
         if($create_user_set->rowCount()){
-            echo 'User account has been created! Check your email for a record of your information.';
+            echo 'User account has been created! Check your email for a record of your information. If you do not login in the next 10 minutes, your account is suspended.';
             send_email($name, $email, $username, $created_pass);
             //redirect_to('index.php');
         }else {
@@ -35,9 +35,11 @@
     }
 
     function editUser($id, $fname, $username, $password, $email){
-        include('connect.php'); 
+        include('connect.php');
+        $_SESSION['user_edits']++;
+        $user_edits = $_SESSION['user_edits'];
          //Insert new user into database
-         $edit_user_query = 'UPDATE tbl_user SET user_fname = :fname, user_name = :username, user_pass = :password, user_email = :email WHERE user_id = :id';
+         $edit_user_query = 'UPDATE tbl_user SET user_fname = :fname, user_name = :username, user_pass = :password, user_email = :email, user_edits = :edits WHERE user_id = :id';
          $edit_user_set = $pdo->prepare($edit_user_query);
          $created_pass = $password;
          $edit_hash = password_hash($password, PASSWORD_DEFAULT);
@@ -48,6 +50,7 @@
                  // Encrypt password
                  ':password' => $edit_hash,
                  ':email'=>$email,
+                 ':edits'=>$user_edits,
                  ':id'=>$id
              )
          );
@@ -61,7 +64,7 @@
              $message = 'Guess you got canned...';
              return $message;
          }
- 
+
          // If new user has been inserted into database, alert user and send them an email
          if($edit_user_set->rowCount()){
              echo 'User account has been updated!';
@@ -72,6 +75,6 @@
              $message = 'Failed';
              return $message;
          }
- 
-        
+
+
     }
