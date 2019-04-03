@@ -3,7 +3,7 @@
         include('connect.php');
         // Generate password from the system, not from the admin
         $created_pass = create_password();
-        //echo $created_pass;
+        echo $created_pass;
         /* Use this to check for decrypted system password
         var_dump($created_pass);die;
         */
@@ -55,19 +55,19 @@
              )
          );
 
-         $edit_user = $edit_user_set->rowCount();
+        // $edit_user = $edit_user_set->rowCount();
         // var_dump($edit_user);die;
 
-         if($edit_user_set->rowCount()){
+         /*if($edit_user_set->rowCount()){
              redirect_to('index.php');
          } else {
              $message = 'Guess you got canned...';
              return $message;
-         }
+         }*/
 
          // If new user has been inserted into database, alert user and send them an email
          if($edit_user_set->rowCount()){
-             echo 'User account has been updated!';
+             //echo 'User account has been updated!';
              //Update this so it gives them the updated password
              //send_email($name, $email, $username, $created_pass);
              redirect_to('index.php');
@@ -75,6 +75,26 @@
              $message = 'Failed';
              return $message;
          }
+
+
+    }
+
+    function deleteUser($id) {
+        include('connect.php');
+         $delete_user_query = 'DELETE FROM tbl_user WHERE user_id = :id';
+         $delete_user_set = $pdo->prepare($delete_user_query);
+         $delete_user_set->execute(
+             array(
+                    ":id"=> $id
+             )
+            );
+
+        if($delete_user_set->rowCount()){
+            redirect_to('../index.php');
+        } else {
+            $message = 'Error with deleting...';
+            return $message;
+        }
 
 
     }

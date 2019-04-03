@@ -1,4 +1,4 @@
-<?php 
+<?php
     require_once('scripts/config.php');
     confirm_logged_in();
 ?>
@@ -17,11 +17,11 @@
     <h1>Admin Dashboard</h1>
     <h3>Welcome <?php echo $_SESSION['user_name'];?></h3>
     <p>This is the admin dashboard page</p>
-    <?php  
+    <?php
         // If user has logged in successfully before
         if ($_SESSION['date'] !== "0000-00-00 00:00:00") {
 
-            //Create date create object to format date  
+            //Create date create object to format date
             $date = date_create($_SESSION['date']);
             date_default_timezone_set('America/Toronto');
             $date_formatted = (date_format($date, '\o\n l jS F Y \a\t g:ia'));
@@ -39,12 +39,12 @@
 
                 echo "Good morning";
             }
-            //If between noon and 5 
+            //If between noon and 5
             else if ($login_time >= "12" && $login_time < "17") {
 
                 echo "Good afternoon";
             }
-            
+
             else {
                 echo "Good night";
             }
@@ -57,8 +57,12 @@
         <ul>
             <li><a href="admin_createuser.php">Create User</a></li>
             <li><a href="admin_edituser.php">Edit User</a></li>
-            <li><a href="#">Delete User</a></li>
+            <li><a href="admin_deleteuser.php">Delete User</a></li>
             <li><a href="scripts/caller.php?caller_id=logout">Sign Out</a></li>
+        </ul>
+
+        <ul>
+            <li><a href="admin_addmovie.php">Add Movie</a></li>
         </ul>
     </nav>
 </body>

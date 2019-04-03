@@ -1,5 +1,3 @@
-
-
 <?php require_once('admin/scripts/config.php');
 if(isset($_GET['filter'])){
 
@@ -33,9 +31,9 @@ if(isset($_GET['filter'])){
     <h1>This is a movie website.</h1>
     <section>
     <ul>
-    <?php 
+    <?php
 
-        //using endwhile keeps php code cleaner 
+        //using endwhile keeps php code cleaner
         while($row = $results->fetch(PDO::FETCH_ASSOC)):?>
         <?php //TODO::  use the following syntax to display at least 3 more columns from the database?>
             <li><?php echo $row['movies_title'];?></li>

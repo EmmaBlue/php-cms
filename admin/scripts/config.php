@@ -1,4 +1,4 @@
-<?php 
+<?php
 //summarizes all the require once functions together
 require_once('functions.php');
 require_once('read.php');
@@ -7,5 +7,6 @@ require_once('sessions.php');
 require_once('user.php');
 require_once('create_password.php');
 require_once('send_email.php');
+require_once('movie.php');
 
 ?>

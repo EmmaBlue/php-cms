@@ -2,7 +2,7 @@
     //check that user is logged in before being allowed to access page
     require_once('scripts/connect.php');
     require_once('scripts/config.php');
-    confirm_logged_in();
+    //confirm_logged_in();
     $id = $_SESSION['user_id'];
     $tbl = 'tbl_user';
     $col = 'user_id';
