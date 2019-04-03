@@ -1,0 +1,22 @@
+{
+  "name": "pan-first-class",
+  "version": "1.0.0",
+  "description": "Admin login system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spiderPan/Fanshawe-IDP-Moive-Review.git"
+  },
+  "author": "Emma Blue",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spiderPan/Fanshawe-IDP-Moive-Review/issues"
+  },
+  "homepage": "https://github.com/spiderPan/Fanshawe-IDP-Moive-Review#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.3"
+  }
+}
