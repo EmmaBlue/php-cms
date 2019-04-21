@@ -3,7 +3,7 @@
 <?php
     //check that user is logged in before being allowed to access page
     require_once('scripts/config.php');
-    //confirm_logged_in();
+   // confirm_logged_in();
     //If user submitted to form, don't want user to be created when page refreshed
     if(isset($_POST['submit'])){
         //trim = if user adds lots of spaces, trim gets rid of space before + after string

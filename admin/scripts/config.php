@@ -7,6 +7,6 @@ require_once('sessions.php');
 require_once('user.php');
 require_once('create_password.php');
 require_once('send_email.php');
-require_once('movie.php');
+require_once('product.php');
 
 ?>

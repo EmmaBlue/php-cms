@@ -1,7 +1,7 @@
-<?php 
-    $db_dsn = array( 
+<?php
+    $db_dsn = array(
         'host' => 'localhost',
-        'dbname' => 'db_movies2',
+        'dbname' => 'db_cms',
         'charset' => 'utf8'
     );
 

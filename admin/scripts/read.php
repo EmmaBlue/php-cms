@@ -1,4 +1,4 @@
-<?php 
+<?php
 
     function getAll($tbl){
 
@@ -33,7 +33,7 @@
 
     function filterResults($tbl, $tbl2, $tbl3, $col, $col2, $col3, $filter) {
         include('connect.php');
-        //TODO: write the SQL query to fetching everything 
+        //TODO: write the SQL query to fetching everything
         // from the linking tables $tbl, $tbl_2, $tbl_3
         $filterQuery = 'SELECT * FROM ' .$tbl.' as a, ';
         $filterQuery.= $tbl2.' as b, ';
@@ -41,7 +41,7 @@
         $filterQuery.= 'WHERE a.' .$col.' = c.'.$col;
         $filterQuery.= ' AND b.' .$col2.' = c.'.$col2;
         $filterQuery.= ' AND b.' .$col3.' = "'.$filter.'"';
-        //echo $filterQuery; 
+        //echo $filterQuery;
         //exit;
         $runQuery = $pdo->query($filterQuery);
         if($runQuery){

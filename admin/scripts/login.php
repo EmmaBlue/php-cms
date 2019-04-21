@@ -131,16 +131,11 @@ function login($username, $password, $ip) {
 
                 );
 
-                //If this is the first login or if user has edited their account yet
-                if ($check_first_login->fetchColumn() > 0 ||$check_if_edited->fetchColumn() > 0 )  {
-                  redirect_to('admin_edituser.php');
 
-                }
-                else {
 
                   redirect_to('index.php');
 
-                }
+
 
 
                 }
@@ -154,37 +149,8 @@ function login($username, $password, $ip) {
             }
 
       }
-
-    //If username matches but password doesn't
-
-    if (empty($id)){
-
-        $_SESSION['login_fails']++;
-        $login_fails = $_SESSION['login_fails'];
-        //Update login tries
-        $failed_login_query="UPDATE tbl_user SET failed_login_tries = :tries, last_failed_login = NOW() WHERE user_name = :user";
-        $get_failed_login = $pdo->prepare($failed_login_query);
-        $get_failed_login->execute(
-
-          array (
-
-            ":tries" => $login_fails,
-            ":user" => $username
-
-          )
-        );
-
-      $tries_left = 3 - $login_fails;
-      $message = 'Login Failed. You have '.$tries_left.' more tries before being locked.';
-      if ($tries_left <= 0) {
-
-        $message = 'Locked out!';
-
-      }
-      return $message;
     }
-    redirect_to('index.php');
-  }
+
 
   else {
       $message = 'Login Failed.';

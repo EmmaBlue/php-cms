@@ -1,4 +1,6 @@
 <?php
+    ini_set('display_errors', 'On');
+    error_reporting(E_ALL);
     require_once('scripts/config.php');
     confirm_logged_in();
 ?>
@@ -56,13 +58,13 @@
     <nav>
         <ul>
             <li><a href="admin_createuser.php">Create User</a></li>
-            <li><a href="admin_edituser.php">Edit User</a></li>
             <li><a href="admin_deleteuser.php">Delete User</a></li>
             <li><a href="scripts/caller.php?caller_id=logout">Sign Out</a></li>
         </ul>
 
         <ul>
-            <li><a href="admin_addmovie.php">Add Movie</a></li>
+            <li><a href="admin_addproduct.php">Add Product</a></li>
+            <li><a href="admin_editproduct.php">Product Settings</a></li>
         </ul>
     </nav>
 </body>

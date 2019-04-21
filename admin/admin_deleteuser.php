@@ -1,6 +1,8 @@
 <?php
+    ini_set('display_errors', 'On');
+    error_reporting(E_ALL);
     require_once('scripts/config.php');
-    //confirm_logged_in();
+    confirm_logged_in();
 
     $tbl = 'tbl_user';
 

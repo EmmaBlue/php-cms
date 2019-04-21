@@ -3,14 +3,14 @@
 <?php require_once('admin/scripts/config.php');
 if(isset($_GET['id'])){
 
-    $tbl = 'tbl_movies';
-    $col = 'movies_id';
+    $tbl = 'tbl_product';
+    $col = 'product_id';
     $value = $_GET['id'];
     $results = getSingle($tbl, $col, $value);
 
 } else {
 
-    $results = getAll('tbl_movies');
+    $results = getAll('tbl_product');
 }
 ?>
 
@@ -28,11 +28,11 @@ if(isset($_GET['id'])){
     <?php include('templates/header.html'); ?>
     <h1>This is a details page.</h1>
     <section>
-        <?php 
-            //using endwhile keeps php code cleaner 
+        <?php
+            //using endwhile keeps php code cleaner
             while($row = $results->fetch(PDO::FETCH_ASSOC)):?>
             <?php //TODO::  use the following syntax to display at least 3 more columns from the database?>
-                <li><?php echo $row['movies_title'];?></li>
+                <li><?php echo $row['product_title'];?></li>
             <?php endwhile;?>
     </section>
     <?php include('templates/footer.php'); ?>

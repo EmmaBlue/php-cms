@@ -1,4 +1,6 @@
-<?php 
+<?php
+	ini_set('display_errors', 'On');
+	error_reporting(E_ALL);
 	require_once('scripts/config.php');
 	if(empty($_POST['username']) || empty($_POST['password'])){
 		$message = 'Missing Fields';
@@ -19,7 +21,6 @@
 <body>
     <?php if(!empty($message)):?>
     <p><?php echo $message;?></p>
-	<p><?php echo $tries_left; ?></p>
     <?php endif ?>
 	<form action="admin_login.php" method="post">
 		<label>Username:
